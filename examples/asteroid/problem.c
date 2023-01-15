@@ -5,20 +5,17 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <math.h>
 #include "rebound.h"
 #include "assist.h"
 
 int main(int argc, char* argv[]){
-    // Initical condition of asteroid
+    // Initial conditions of asteroid
     int n_particles = 1;    
     double* state = malloc(n_particles*6*sizeof(double));
-    state[0] = 3.3388753502614090e+00;  // x
+    state[0] = 3.3388753502614090e+00;  // x in AU
     state[1] = -9.1765182678903168e-01; // y
     state[2] = -5.0385906775843303e-01; // z
-    state[3] = 2.8056633153049852e-03;  // vx
+    state[3] = 2.8056633153049852e-03;  // vx in AU/day
     state[4] = 7.5504086883996860e-03;  // vy
     state[5] = 2.9800282074358684e-03;  // vz
    
@@ -37,8 +34,8 @@ int main(int argc, char* argv[]){
 
     // Allocate memory for output.
     int n_alloc = ((tend-tstart)/tstep + 1)*n_substeps;
-    double* outstate = (double *) malloc((8*n_alloc)*6*sizeof(double));
-    double* outtime  = (double *) malloc((8*n_alloc)*sizeof(double));
+    double* outstate = (double *) malloc((n_alloc)*6*sizeof(double));
+    double* outtime  = (double *) malloc((n_alloc)*sizeof(double));
 
     int n_steps_done;
     int status = integration_function(
