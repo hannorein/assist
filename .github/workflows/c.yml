@@ -15,10 +15,12 @@ jobs:
       - name: Download REBOUND
         working-directory: ../
         run: | 
+          pwd
           git clone https://github.com/hannorein/rebound.git
       - name: Compile REBOUND
         working-directory: ../rebound
         run: | 
+          pwd
           make
       - name: Compile ASSIST
         run: | 
