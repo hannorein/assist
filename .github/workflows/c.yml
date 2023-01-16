@@ -37,4 +37,4 @@ jobs:
           make
           ls -lsa 
           #cp ../../../rebound/src/librebound.so .
-          ./rebound
+          LD_LIBRARY_PATH=../../../rebound/src/ ./rebound
