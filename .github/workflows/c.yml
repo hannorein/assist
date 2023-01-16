@@ -17,14 +17,14 @@ jobs:
         run: | 
           pwd
           git clone https://github.com/hannorein/rebound.git
-      - name: Compile REBOUND
-        working-directory: ../rebound
-        run: | 
-          pwd
-          make
-      - name: Compile ASSIST
-        run: | 
-          make
+          #- name: Compile REBOUND
+          #  working-directory: ../rebound
+          #  run: | 
+          #    pwd
+          #    make
+          #- name: Compile ASSIST
+          #  run: | 
+          #    make
       - name: Download DE441 dataset
         working-directory: ./data/
         run: |
@@ -36,4 +36,4 @@ jobs:
         run: |
           make
           ls -lsa 
-          LD_LIBRARY_PATH=../../../rebound/src/ ./rebound
+          ./rebound
