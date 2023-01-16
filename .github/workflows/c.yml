@@ -35,6 +35,5 @@ jobs:
         working-directory: ./unit_tests/holman/
         run: |
           make
-          ls -lsa ../../../rebound/
-          ls -lsa ../../../rebound/src/
-          ./rebound
+          ls -lsa 
+          LD_LIBRARY_PATH=../../../rebound/src/ ./rebound
