@@ -16,9 +16,9 @@ jobs:
           git clone https://github.com/hannorein/rebound.git
           make
       - name: Download DE441 dataset
+        working-directory: ./data/
         run: |
-          mkdir data
-          wget -O datalinux_m13000p17000.441 https://ssd.jpl.nasa.gov/ftp/eph/planets/Linux/de441/linux_m13000p17000.441  
+          wget https://ssd.jpl.nasa.gov/ftp/eph/planets/Linux/de441/linux_m13000p17000.441  
       - name: Reproduce Holman trajectory
         env:
           REB_DIR: ../../rebound
