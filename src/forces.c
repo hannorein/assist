@@ -171,7 +171,7 @@ void assist_additional_forces(struct reb_simulation* sim){
 	first=1;
     }
 
-    fclose(eih_file);
+    //fclose(eih_file);
     fflush(outfile);
     fclose(outfile);
 
