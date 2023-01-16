@@ -5,6 +5,7 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #include "rebound.h"
 #include "assist.h"
 
@@ -61,15 +62,13 @@ int main(int argc, char* argv[]){
 
     // Number of outputs generated
     int n_outs = n_steps_done*n_substeps + 1;
+    
+    // Check final time
+    assert(outtime[n_outs-1] == tend);
 
-    for (int j=0; j<n_outs; j++){
-        for (int k=0; k<n_particles; k++){
-            int offset = j*(k+1)*6;
-            printf("%d %lf %.12lf %.12lf %.12lf %.12lf %.12lf %.12lf\n",
-                    j, outtime[j],
-                    outstate[offset+0], outstate[offset+1], outstate[offset+2],
-                    outstate[offset+3], outstate[offset+4], outstate[offset+5]);
-        }
-    }
+    // Check x position. 
+    int offset = (n_outs-1)*6;
+    printf("%.30f\n", outstate[offset]);
+    assert(outstate[offset+0] == 3.5020825007968507947); // Note: this value is just a dummy. Hard code JPL values here.
 }
 
