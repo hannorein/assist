@@ -35,5 +35,6 @@ jobs:
         working-directory: ./unit_tests/holman/
         run: |
           make
-          ls -lsa
+          ls -lsa ../../../rebound/
+          ls -lsa ../../../rebound/src/
           ./rebound
