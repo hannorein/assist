@@ -2,6 +2,9 @@ name: ASSIST Unit Tests (C)
 
 on: [push, pull_request]
 
+env:
+  JPL_PLANET_EPHEM: ../../data/linux_p1550p2650.440
+
 jobs:
   build:
 
@@ -9,19 +12,20 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Get REBOUND and compile library
-        env:
-          REB_DIR: ../rebound
+      - name: Get REBOUND
+        working-directory: ../
         run: | 
           git clone https://github.com/hannorein/rebound.git
+      - name: Compile ASSIST
+        run: | 
           make
       - name: Download DE441 dataset
         working-directory: ./data/
         run: |
-          wget --no-verbose https://ssd.jpl.nasa.gov/ftp/eph/planets/Linux/de441/linux_m13000p17000.441  
+          #wget --no-verbose https://ssd.jpl.nasa.gov/ftp/eph/planets/Linux/de441/linux_m13000p17000.441  
+          wget --no-verbose https://ssd.jpl.nasa.gov/ftp/eph/planets/Linux/de440/linux_p1550p2650.440
+          wget --no-verbose https://ssd.jpl.nasa.gov/ftp/eph/small_bodies/asteroids_de441/sb441-n16.bsp
       - name: Reproduce Holman trajectory
-        env:
-          REB_DIR: ../../rebound
         working-directory: ./unit_tests/holman/
         run: |
           make
