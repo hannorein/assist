@@ -1,0 +1,26 @@
+name: ASSIST Unit Tests (C)
+
+on: [push, pull_request]
+
+env:
+  REB_DIR: ../../rebound
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get REBOUND and compile library
+        run: | 
+          git clone https://github.com/hannorein/rebound.git
+          make
+      - name: Download DE441 dataset
+        run: |
+          mkdir data
+          wget -O datalinux_m13000p17000.441 https://ssd.jpl.nasa.gov/ftp/eph/planets/Linux/de441/linux_m13000p17000.441  
+      - name: Reproduce Holman trajectory
+        working-directory: ./unit_tests/holman/
+        run: |
+          make
