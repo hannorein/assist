@@ -36,5 +36,5 @@ jobs:
         run: |
           make
           ls -lsa 
-          cp ../../../rebound/librebound.so .
+          cp ../../../rebound/src/librebound.so .
           ./rebound
