@@ -35,4 +35,5 @@ jobs:
         working-directory: ./unit_tests/holman/
         run: |
           make
+          ls -lsa
           ./rebound
