@@ -18,7 +18,7 @@ jobs:
       - name: Download DE441 dataset
         working-directory: ./data/
         run: |
-          wget https://ssd.jpl.nasa.gov/ftp/eph/planets/Linux/de441/linux_m13000p17000.441  
+          wget --no-verbose https://ssd.jpl.nasa.gov/ftp/eph/planets/Linux/de441/linux_m13000p17000.441  
       - name: Reproduce Holman trajectory
         env:
           REB_DIR: ../../rebound
