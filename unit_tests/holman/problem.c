@@ -20,11 +20,11 @@ int main(int argc, char* argv[]){
     state[4] = 7.5504086883996860e-03;  // vy
     state[5] = 2.9800282074358684e-03;  // vz
    
-    double tstart = 2458849.5; // Initial time 
-    double tend = 2458949.5;   // Final time
-    double tstep = 20;         // Integration step size. 
+    double jd_ref = 2451545.0;  // All times are emasured relative to this Julian date 
+    double tstart = 7304.5;     // Initial time 
+    double tend = 7404.5;       // Final time
+    double tstep = 20;          // Integration step size. 
     
-    double jd_ref = 2451545.0; // I do not understand what this variable does
     
     // Interpolate between integration steps on these substeps 
     int n_substeps = 4;
@@ -69,6 +69,6 @@ int main(int argc, char* argv[]){
     // Check x position. 
     int offset = (n_outs-1)*6;
     printf("%.20f\n", outstate[offset]);
-    assert(outstate[offset+0] == 3.5020825007968507947); // Note: this value is just a dummy. Hard code JPL values here.
+    assert(outstate[offset+0] == 3.50261534999964929682); // Note: this value is just a dummy. Hard code JPL values here.
 }
 
