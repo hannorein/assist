@@ -172,8 +172,8 @@ void assist_additional_forces(struct reb_simulation* sim){
     }
 
     //fclose(eih_file);
-    fflush(outfile);
-    fclose(outfile);
+    //fflush(outfile);
+    //fclose(outfile);
 
     if(geo == 1){
 	// geocentric
