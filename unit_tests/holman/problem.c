@@ -68,6 +68,7 @@ int main(int argc, char* argv[]){
 
     // Check x position. 
     int offset = (n_outs-1)*6;
+    printf("%.20f\n", outstate[offset]);
     assert(outstate[offset+0] == 3.5020825007968507947); // Note: this value is just a dummy. Hard code JPL values here.
 }
 
