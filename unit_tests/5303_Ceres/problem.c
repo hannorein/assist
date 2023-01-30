@@ -1,6 +1,5 @@
 /**
- * A unit test integrating the asteroid Holman for 30 days, then comparing the 
- * position and coordinates to JPL Horizon data.
+ * A unit test fir tge 5303-Ceres encounter.
  */
 #include <stdio.h>
 #include <stdlib.h>
