@@ -82,6 +82,18 @@ static int _com(const char *buf)
 //		n += fprintf(stdout, "%s\n", &buf[n]) - 1;
 //}
 
+static int _ind(struct spk_s *pl, int tar)
+{
+	int m;
+
+	for (m = 0; m < _SPK_MAX; m++)
+		if (pl->tar[m] == tar)
+			{ return m; }
+
+	// new target
+	return pl->num++;
+}
+
 struct spk_s * assist_spk_init(const char *path)
 {
 	struct spk_s *pl;
@@ -149,14 +161,14 @@ next:	n = (int)val[0] - 1;
 
 	for (b = 0; b < B; b++) {
 		sum = (struct sum_s *)&buf[24 + b * sizeof(struct sum_s)];
+		m = _ind(pl, sum->tar);
 
 //		fprintf(stdout, "beg %.1f end %.1f tar %d cen %d ref %d ver %d one %d two %d\n",
 //				_jul(sum->beg), _jul(sum->end), sum->tar, sum->cen,
 //				sum->ref, sum->ver, sum->one, sum->two);
 
 		// pick out new target!
-		if (sum->tar != pl->tar[m]) {
-			m = pl->num++;
+		if ((c = pl->ind[m]++) == 0) {
 			pl->tar[m] = sum->tar;
 			pl->cen[m] = sum->cen;
 			pl->beg[m] = _jul(sum->beg);
@@ -166,7 +178,6 @@ next:	n = (int)val[0] - 1;
 		}
 
 		// add index
-		c = pl->ind[m]++;
 		pl->one[m][c] = sum->one;
 		pl->two[m][c] = sum->two;
 	}

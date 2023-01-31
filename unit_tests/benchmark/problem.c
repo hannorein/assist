@@ -11,7 +11,8 @@
 double runtime(){
     struct assist_ephem* ephem = assist_ephem_init(
 	    "../../data/linux_p1550p2650.440",
-            "../../data/sb441-n16.bsp");
+            "../../data/pack.bsp");
+//            "../../data/sb441-n16.bsp");
     if (ephem == NULL){
         fprintf(stderr,"Error initializing assist_ephem.\n");
         exit(1);
