@@ -315,6 +315,17 @@ int assist_jpl_calc(struct _jpl_s *pl, struct mpos_s *pos, double jd_ref, double
                 break;
         }
 
+        //if ( t<0.0001 )
+        if ( t>0.99995 ){
+            struct mpos_s pos2 = {0};
+            double jd_rel2 = jd_rel;// + 2.*(1.-t)*pl->inc;
+            assist_jpl_calc(pl, &pos2, jd_ref, jd_rel2, body);
+            //double dx = pos2.u[0]-pos->u[0];
+            //double dy = pos2.u[1]-pos->u[1];
+            //double dz = pos2.u[2]-pos->u[2];
+            //double d = sqrt(dx*dx + dy*dy + dz*dz)/pl->cau;
+            //printf("%.20e \n",jd_rel, d);
+        }
         pos->jde = jd_ref + jd_rel;
         return 0;
 }
