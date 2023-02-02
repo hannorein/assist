@@ -22,7 +22,7 @@ all: librebound.so libassist.so
 	@echo ""
 	@echo "Problem file compiled successfully."
 
-librebound.so:
+librebound.so: $(REB_DIR)/src/*.c
 	@echo "Compiling shared library librebound.so ..."
 	$(MAKE) -C $(REB_DIR)/src/
 	@echo "Creating link for shared library librebound.so ..."
