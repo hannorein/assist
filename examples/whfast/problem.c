@@ -52,7 +52,7 @@ int main(int argc, char* argv[]){
         struct assist_ephem* ephem = assist_ephem_create( "../../data/linux_p1550p2650.440", "../../data/sb441-n16.bsp");
         struct assist_extras* ax = assist_attach(r, ephem);
         ax->forces ^= ASSIST_FORCE_GR_EIH;
-        // ax->forces ^= ASSIST_FORCE_SUN; // We should excluding Sun's gravity in assist_additional_forces to calculate the acceleration term (1/r - 1/r0) more accurately.
+        ax->forces ^= ASSIST_FORCE_SUN; // We should excluding Sun's gravity in assist_additional_forces to calculate the acceleration term (1/r - 1/r0) more accurately.
         r->t = t_start;
         reb_add(r, p_start);
 
@@ -64,14 +64,26 @@ int main(int argc, char* argv[]){
 
             // Kick
             sun = assist_get_particle(ephem, ASSIST_BODY_SUN, r->t);
+            struct reb_particle r0;
+            r0.x = r->particles[0].x-sun.x;
+            r0.y = r->particles[0].y-sun.y;
+            r0.z = r->particles[0].z-sun.z;	    
+            double r0_2 = r0.x*r0.x + r0.y*r0.y + r0.z*r0.z;
+            double q = (sun.x*sun.x + sun.y*sun.y + sun.z*sun.z 
+                    + 2*(sun.x*r0.x + sun.y*r0.y + sun.z*r0.z))/r0_2;
+            double q1 = 1.0 + q;
+            double fq = q*(3.0 + q*(3.0 + q))/(1.0 + q1*sqrt(q1));
             r->particles[0].ax = 0;
             r->particles[0].ay = 0;
             r->particles[0].az = 0;
+
             assist_additional_forces(r);
             double rb = sqrt(r->particles[0].x*r->particles[0].x + r->particles[0].y*r->particles[0].y + r->particles[0].z*r->particles[0].z);
-            r->particles[0].ax += JPL_EPHEM_GMS/(rb*rb*rb) *r->particles[0].x;
-            r->particles[0].ay += JPL_EPHEM_GMS/(rb*rb*rb) *r->particles[0].y;
-            r->particles[0].az += JPL_EPHEM_GMS/(rb*rb*rb) *r->particles[0].z;
+            double GMsun_over_r3 = JPL_EPHEM_GMS/(rb*rb*rb);
+
+            r->particles[0].ax -= (fq*r0.x - sun.x)*GMsun_over_r3;
+            r->particles[0].ay -= (fq*r0.y - sun.y)*GMsun_over_r3;
+            r->particles[0].az -= (fq*r0.z - sun.z)*GMsun_over_r3;
 
             r->particles[0].vx += r->particles[0].ax * dt;
             r->particles[0].vy += r->particles[0].ay * dt;
