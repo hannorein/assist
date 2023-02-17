@@ -172,12 +172,13 @@ void assist_additional_forces(struct reb_simulation* sim){
 	}
     }
 }
-
+int ec = 0;
 int assist_all_ephem(struct assist_ephem* ephem, struct assist_ephem_cache* ephem_cache, const int i, const double t, double* const GM,
 		      double* const x, double* const y, double* const z,
 		      double* const vx, double* const vy, double* const vz,
 		      double* const ax, double* const ay, double* const az
         ){
+    ec ++;
     if (ephem_cache){
         double* ct = ephem_cache->t+7*i;
         for (int s=0; s<7; s+=1){
