@@ -117,6 +117,10 @@ void assist_additional_forces(struct reb_simulation* sim){
 	   outfile, eih_file);
     */
 
+    if (sim->integrator == REB_INTEGRATOR_WHFAST){
+        assist->forces &= ~ASSIST_FORCE_SUN;
+    }
+
     if (assist->forces & ASSIST_FORCE_NON_GRAVITATIONAL){
         assist_additional_force_non_gravitational(sim, xo, yo, zo, vxo, vyo, vzo, outfile);
     }
@@ -172,13 +176,11 @@ void assist_additional_forces(struct reb_simulation* sim){
 	}
     }
 }
-int ec = 0;
 int assist_all_ephem(struct assist_ephem* ephem, struct assist_ephem_cache* ephem_cache, const int i, const double t, double* const GM,
 		      double* const x, double* const y, double* const z,
 		      double* const vx, double* const vy, double* const vz,
 		      double* const ax, double* const ay, double* const az
         ){
-    ec ++;
     if (ephem_cache){
         double* ct = ephem_cache->t+7*i;
         for (int s=0; s<7; s+=1){
@@ -346,6 +348,31 @@ static void assist_additional_force_direct(struct reb_simulation* sim, double xo
             particles[j].ay -= prefac*dy;
             particles[j].az -= prefac*dz;
 
+        }
+    }
+    
+    if (sim->integrator == REB_INTEGRATOR_WHFAST){
+        int flag = assist_all_ephem(ephem, assist->ephem_cache, ASSIST_BODY_SUN, t, &GM, &x, &y, &z, &vx, &vy, &vz, &ax, &ay, &az);
+        if(flag != ASSIST_SUCCESS){
+            reb_error(sim, assist_error_messages[flag]);
+        }
+        // Loop over test particles
+        for (int j=0; j<N_real; j++){
+            double r0x = particles[j].x-x;
+            double r0y = particles[j].y-y;
+            double r0z = particles[j].z-z;	    
+            double r0_2 = r0x*r0x + r0y*r0y + r0z*r0z;
+            double q = (x*x + y*y + z*z 
+                    + 2*(x*r0x + y*r0y + z*r0z))/r0_2;
+            double q1 = 1.0 + q;
+            double fq = q*(3.0 + q*(3.0 + q))/(1.0 + q1*sqrt(q1));
+            
+            double rb = sqrt(particles[j].x*particles[j].x + particles[j].y*particles[j].y + particles[j].z*particles[j].z);
+            double GMsun_over_r3 = GM/(rb*rb*rb);
+
+            particles[j].ax -= (fq*r0x - x)*GMsun_over_r3;
+            particles[j].ay -= (fq*r0y - y)*GMsun_over_r3;
+            particles[j].az -= (fq*r0z - z)*GMsun_over_r3;
         }
     }
 
