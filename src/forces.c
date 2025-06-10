@@ -217,7 +217,7 @@ int assist_all_ephem(struct assist_ephem* ephem, struct assist_ephem_cache* ephe
 
         // Translate massive asteroids from heliocentric to barycentric.
         *x  += xs;  *y  += ys;  *z  += zs;
-        *vx += vxs; *vy += vys; *vz += vyz;
+        *vx += vxs; *vy += vys; *vz += vzs;
     }
 
     if (ephem_cache){
