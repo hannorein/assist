@@ -211,18 +211,13 @@ int assist_all_ephem(struct assist_ephem* ephem, struct assist_ephem_cache* ephe
         int flag = assist_spk_calc(ephem->spl, jd_ref, t, i-ASSIST_BODY_NPLANETS, GM, x, y, z);
         if(flag != ASSIST_SUCCESS) return(flag);
 
-        double GMs, xs, ys, zs;
-        double vxs, vys, vzs, axs, ays, azs; // Not needed
+        double GMs, xs, ys, zs, vxs, vys, vzs, axs, ays, azs;
         flag = assist_all_ephem(ephem, ephem_cache, ASSIST_BODY_SUN, t, &GMs, &xs, &ys, &zs, &vxs, &vys, &vzs, &axs, &ays, &azs);
         if(flag != ASSIST_SUCCESS) return(flag);		    
 
         // Translate massive asteroids from heliocentric to barycentric.
-        *x += xs; *y += ys; *z += zs;
-        // velocities and accelerations are not needed for these
-        // bodies
-        *vx = NAN; *vy = NAN; *vz = NAN;
-        *ax = NAN; *ay = NAN; *az = NAN;
-
+        *x  += xs;  *y  += ys;  *z  += zs;
+        *vx += vxs; *vy += vys; *vz += vyz;
     }
 
     if (ephem_cache){
