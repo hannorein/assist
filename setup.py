@@ -174,9 +174,9 @@ setup(name='assist',
     packages=['assist'],
     package_data={"assist": ["assist.h", "py.typed"]},
     cmdclass={'build_ext':build_ext},
-      setup_requires=['rebound @ file:/Users/rein/git/rebound', 'numpy'],
-      install_requires=['rebound @ file:/Users/rein/git/rebound', 'numpy'],
+    setup_requires=['rebound>=5.0.0', 'numpy'],
+    install_requires=['rebound>=5.0.0', 'numpy'],
     tests_require=["numpy","matplotlib","rebound"],
     test_suite="assist.test",
     ext_modules = [libassistmodule],
-    zip_safe=False) 
+    zip_safe=False)
