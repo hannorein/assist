@@ -34,6 +34,7 @@
 #include <unistd.h>
 #include "assist.h"
 #include "rebound.h"
+#include "simulationarchive.h"
 
 #include "spk.h"
 #include "forces.h"
