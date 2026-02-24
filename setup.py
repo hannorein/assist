@@ -44,7 +44,7 @@ class build_ext(_build_ext):
         rebdir = os.path.dirname(inspect.getfile(rebound))
         # get site-packages dir to add to paths in case REBOUND & ASSIST installed simul in tmp dir
         rebdirsp = get_python_lib()+'/'#[p for p in sys.path if p.endswith('site-packages')][0]+'/'
-        self.include_dirs.append(rebdir)
+        self.include_dirs.append(rebdir+"/include")
         # Keep this list in sync with libassistmodule.sources below.
         sources = ['src/assist.c', 'src/spk.c', 'src/forces.c', 'src/tools.c', 'src/ascii_ephem.c']
 
